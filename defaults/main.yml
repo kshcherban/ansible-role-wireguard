@@ -1,0 +1,14 @@
+---
+wireguard_port: "5888"
+wireguard_path: "/etc/wireguard"
+
+wireguard_network_name: "wg0"
+
+debian_enable_backports: true
+debian_pin_packages: true
+
+clients: []
+
+wireguard_additional_peers: false
+wireguard_post_up: "{{ wireguard_path }}/post-up.sh"
+wireguard_post_down: "{{ wireguard_path }}/post-down.sh"

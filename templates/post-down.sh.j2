@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+iptables -D FORWARD -i %i -j ACCEPT
+iptables -t nat -D POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
+
+ip6tables -D FORWARD -i %i -j ACCEPT
+ip6tables -t nat -D POSTROUTING -o {{ ansible_default_ipv6.interface }} -j MASQUERADE
