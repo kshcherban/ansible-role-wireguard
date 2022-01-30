@@ -1,6 +1,4 @@
-# Ansible role to manage wireguard 
-
-[![Ansible Role](https://img.shields.io/ansible/role/d/33136)](https://galaxy.ansible.com/mawalu/wireguard_private_networking)
+# Ansible role to manage wireguard
 
 This role allows you to deploy a fast, secure and provider agnostic private network between multiple servers. This is useful for providers that do not provide you with a private network or if you want to connect servers that are spread over multiple regions and providers.
 
@@ -14,10 +12,10 @@ The role installs [wireguard](https://wireguard.com) on Debian, Ubuntu, Arch, Ce
 
 ## Installation
 
-Installation can be done using [ansible galaxy](https://galaxy.ansible.com/mawalu/wireguard_private_networking):
+Installation can be done using [ansible galaxy](https://galaxy.ansible.com/kshcherban/wireguard):
 
 ```
-$ ansible-galaxy install https://github.com/kshcherban/ansible-role-wireguard
+$ ansible-galaxy install kshcherban.wireguard
 ```
 
 ## Setup
@@ -96,8 +94,8 @@ wireguard_additional_peers:
   - comment: other_network
     ip: 10.32.0.0/16
     key: their_wireguard_public_key
-    keepalive: 20 
-    endpoint: some.endpoint:2230 
+    keepalive: 20
+    endpoint: some.endpoint:2230
 
 wireguard_post_up: "iptables ..." # PostUp hook command, by default script from templates are used
 wireguard_post_down: "iptables"   # PostDown hook command
