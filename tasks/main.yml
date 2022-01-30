@@ -27,7 +27,6 @@
   when:
     - ansible_distribution == "Debian" and debian_enable_backports and ansible_architecture != "armv61"
 
-
 - name: Install wireguard (apt)
   apt:
     update_cache: yes
@@ -175,22 +174,6 @@
 - name: Print the gateway for each host when defined
   ansible.builtin.debug:
     msg: LOOK HERE {{ client_publickey }}
-
-- name: Bring default post-up script
-  template:
-    src: post-up.sh.j2
-    dest: "{{ wireguard_path }}/post-up.sh"
-    owner: root
-    group: root
-    mode: 0750
-
-- name: Bring default post-down script
-  template:
-    src: post-down.sh.j2
-    dest: "{{ wireguard_path }}/post-down.sh"
-    owner: root
-    group: root
-    mode: 0750
 
 - name: Generate configs
   template:

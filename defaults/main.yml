@@ -10,5 +10,5 @@ debian_pin_packages: true
 clients: []
 
 wireguard_additional_peers: false
-wireguard_post_up: "{{ wireguard_path }}/post-up.sh"
-wireguard_post_down: "{{ wireguard_path }}/post-down.sh"
+wireguard_post_up: "iptables -I FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE"
+wireguard_post_down: "iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE"
