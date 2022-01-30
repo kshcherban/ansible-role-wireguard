@@ -8,7 +8,7 @@ DNS = {{ item.dns }}
 {% for node in play_hosts %}
 [Peer]
 PublicKey = {{ hostvars[node].public.content | b64decode | trim }}
-AllowedIPs = {{ hostvars[node].vpn_ip }}
+AllowedIPs = 0.0.0.0/0
 Endpoint = {{ hostvars[node]['public_addr'] | default(hostvars[node]['ansible_host']) | default(hostvars[node]['inventory_hostname']) }}:{{ wireguard_port }}
 PersistentKeepalive = 25
 
