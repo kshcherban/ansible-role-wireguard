@@ -192,7 +192,7 @@
 - name: Generate client's config
   template:
     src: client.conf.j2
-    dest: "~/wireguard-{{ item.name }}.conf"
+    dest: "~/wireguard-{{ inventory_hostname }}-{{ item.name }}.conf"
     mode: "u=rw,g=,o="
   vars:
     ansible_connection: local
