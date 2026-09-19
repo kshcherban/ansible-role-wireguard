@@ -13,17 +13,13 @@
   when: ansible_distribution == "Debian" and is_proxmox.stat.exists
 
 - name: Add backports repository (Debian)
-  block:
-    - name: Add backports repository list (Debian)
-      copy:
-        src: templates/backports.list
-        dest: /etc/apt/sources.list.d/backport.list
-        mode: 0644
-
-    - name: Add backports repository key (Debian)
-      apt_key:
-        url: https://ftp-master.debian.org/keys/archive-key-{{ ansible_lsb.release }}.asc
-        state: present
+  deb822_repository:
+    name: debian-backports
+    types: deb
+    uris: http://deb.debian.org/debian
+    suites: "{{ ansible_lsb.release }}-backports"
+    components: main
+    signed_by: https://ftp-master.debian.org/keys/archive-key-{{ ansible_lsb.release }}.asc
   when:
     - ansible_distribution == "Debian" and debian_enable_backports and ansible_architecture != "armv61"
 
