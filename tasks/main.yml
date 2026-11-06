@@ -1,27 +1,32 @@
+# ABOUTME: Installs WireGuard packages and configures network peers.
+# ABOUTME: Uses backports only on Debian releases older than Debian 11.
 ---
 - name: Check that is proxmox
   stat:
     path: /etc/pve
   register: is_proxmox
-  when: ansible_distribution == "Debian"
+  when: ansible_facts['distribution'] == "Debian"
 
 - name: Install linux headers when debian proxmox
   apt:
     update_cache: yes
     state: present
     name: pve-headers
-  when: ansible_distribution == "Debian" and is_proxmox.stat.exists
+  when: ansible_facts['distribution'] == "Debian" and is_proxmox.stat.exists
 
 - name: Add backports repository (Debian)
   deb822_repository:
     name: debian-backports
     types: deb
     uris: http://deb.debian.org/debian
-    suites: "{{ ansible_lsb.release }}-backports"
+    suites: "{{ ansible_facts['distribution_release'] }}-backports"
     components: main
-    signed_by: https://ftp-master.debian.org/keys/archive-key-{{ ansible_lsb.release }}.asc
+    signed_by: https://ftp-master.debian.org/keys/archive-key-{{ ansible_facts['distribution_major_version'] }}.asc
   when:
-    - ansible_distribution == "Debian" and debian_enable_backports and ansible_architecture != "armv61"
+    - ansible_facts['distribution'] == "Debian"
+    - ansible_facts['distribution_major_version'] | int < 11
+    - debian_enable_backports | bool
+    - ansible_facts['architecture'] != "armv6l"
 
 - name: Install wireguard (apt)
   apt:
@@ -29,7 +34,7 @@
     state: present
     name: wireguard
   when:
-    - ansible_distribution == "Ubuntu" or ansible_distribution == "Debian" and ansible_architecture != "armv6l"
+    - ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Debian" and ansible_facts['architecture'] != "armv6l"
 
 - name: Install wireguard (pacman)
   pacman:

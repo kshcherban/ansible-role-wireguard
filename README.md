@@ -65,6 +65,10 @@ wireguard:
 
 ## Additional configuration
 
+Debian 11 and later and Ubuntu use their standard WireGuard packages without
+adding a backports repository. On older Debian releases, `debian_enable_backports`
+controls whether the role adds a backports repository.
+
 There are a small number of role variables that can be overwritten.
 
 ```yaml
@@ -75,7 +79,7 @@ wireguard_network_name: "wg0" # the name to use for the config file and wg-quick
 
 wireguard_mtu: 1500 # Optionally a MTU to set in the wg-quick file. Not set by default. Can also be set per host
 
-debian_enable_backports: true # if the debian backports repos should be added on debian machines
+debian_enable_backports: true # allow backports on Debian releases older than 11
 
 clients: [] # list of hashes with clients configuration
 # clients configs will be saved locally into ~/wireguard-<client.name>.conf
