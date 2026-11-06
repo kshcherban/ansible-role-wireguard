@@ -1,3 +1,5 @@
+# ABOUTME: Defines WireGuard interface, peer, and firewall hook defaults.
+# ABOUTME: Uses gathered network facts for the outbound firewall interface.
 ---
 wireguard_port: "5888"
 wireguard_path: "/etc/wireguard"
@@ -10,5 +12,5 @@ debian_pin_packages: true
 clients: []
 
 wireguard_additional_peers: false
-wireguard_post_up: "iptables -I FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE"
-wireguard_post_down: "iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE"
+wireguard_post_up: "iptables -I FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ ansible_facts['default_ipv4']['interface'] }} -j MASQUERADE"
+wireguard_post_down: "iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ ansible_facts['default_ipv4']['interface'] }} -j MASQUERADE"

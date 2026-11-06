@@ -43,7 +43,7 @@
       - wireguard-tools
     state: present
   when:
-    - ansible_distribution == "Archlinux"
+    - ansible_facts['distribution'] == "Archlinux"
 
 - name: Install wireguard (CentOS 8)
   block:
@@ -107,7 +107,7 @@
       - wireguard-tools
     state: present
   when:
-    - ansible_distribution == "openSUSE Leap"
+    - ansible_facts['distribution'] == "openSUSE Leap"
 
 - name: Ensure wireguard_path exists as directory
   file:
